@@ -1,6 +1,8 @@
 package com.backend.bikescrud.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "bikes")
@@ -11,23 +13,19 @@ public class Bikes {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String BikeName;
-    private int cc;
-    private Long price;
+    private Double price;
 
-    public Long getPrice() {
+    @ManyToOne
+    @JoinColumn(name = "engine_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Engine engine;
+
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(Double price) {
         this.price = price;
-    }
-
-    public int getCc() {
-        return cc;
-    }
-
-    public void setCc(int cc) {
-        this.cc = cc;
     }
 
     public String getBikeName() {

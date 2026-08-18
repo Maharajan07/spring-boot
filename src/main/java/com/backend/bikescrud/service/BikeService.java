@@ -28,7 +28,6 @@ public class BikeService {
     public String createBike(BikeDTO bikeDTO) {
         Bikes bike = new Bikes();
         bike.setBikeName(bikeDTO.getBikeName());
-        bike.setCc(bikeDTO.getCc());
         bike.setPrice(bikeDTO.getPrice());
         bikeRepository.save(bike);
         return "Bike saved successfully!";
@@ -37,7 +36,6 @@ public class BikeService {
     public String updateBike(BikeDTO bikeDTO, Long id) {
         Bikes bike = bikeRepository.findById(id).orElseThrow();
         bike.setBikeName(bikeDTO.getBikeName());
-        bike.setCc(bikeDTO.getCc());
         bike.setPrice(bikeDTO.getPrice());
         bikeRepository.save(bike);
         return "Bike updated successfully!";

@@ -1,21 +1,20 @@
 package com.backend.bikescrud.dto;
 
-public class BikeDTO {
-
+public class BikeReqDTO {
     private String BikeName;
     private Double price;
-    private EngineDTO engine;
+    private Long engineId;
+
+    public Long getEngineId() {
+        return engineId;
+    }
+
+    public void setEngineId(Long engineId) {
+        this.engineId = engineId;
+    }
 
     public Double getPrice() {
         return price;
-    }
-
-    public EngineDTO getEngine() {
-        return engine;
-    }
-
-    public void setEngine(EngineDTO engine) {
-        this.engine = engine;
     }
 
     public void setPrice(Double price) {

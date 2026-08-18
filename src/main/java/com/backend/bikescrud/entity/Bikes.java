@@ -15,6 +15,14 @@ public class Bikes {
     private String BikeName;
     private Double price;
 
+    public Engine getEngine() {
+        return engine;
+    }
+
+    public void setEngine(Engine engine) {
+        this.engine = engine;
+    }
+
     @ManyToOne
     @JoinColumn(name = "engine_id")
     @OnDelete(action = OnDeleteAction.CASCADE)

@@ -1,8 +1,11 @@
 package com.backend.bikescrud.controller;
 
 import com.backend.bikescrud.dto.BikeDTO;
+import com.backend.bikescrud.dto.BikeReqDTO;
 import com.backend.bikescrud.service.BikeService;
 import com.backend.bikescrud.entity.Bikes;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,13 +31,15 @@ public class BikeController {
     }
 
     @PostMapping
-    public String saveBike(@RequestBody BikeDTO bikeDTO) {
-        return bikeService.createBike(bikeDTO);
+    public ResponseEntity<Bikes> addBike(@RequestBody BikeReqDTO reqDTO) {
+        Bikes savedBike = bikeService.createBike(reqDTO);
+
+        return new ResponseEntity<>(savedBike, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public String updateBike(@RequestBody BikeDTO bikeDTO, @PathVariable Long id) {
-        return bikeService.updateBike(bikeDTO, id);
+    public String updateBike(@RequestBody BikeReqDTO reqDTO, @PathVariable Long id) {
+        return bikeService.updateBike(reqDTO, id);
     }
 
     @PatchMapping("/{id}")

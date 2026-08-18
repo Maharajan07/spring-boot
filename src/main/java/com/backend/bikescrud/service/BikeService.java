@@ -1,8 +1,12 @@
 package com.backend.bikescrud.service;
 
 import com.backend.bikescrud.dto.BikeDTO;
+import com.backend.bikescrud.dto.BikeReqDTO;
 import com.backend.bikescrud.entity.Bikes;
+import com.backend.bikescrud.entity.Engine;
 import com.backend.bikescrud.repository.BikeRepository;
+import com.backend.bikescrud.repository.EngineRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,9 +15,11 @@ import java.util.List;
 public class BikeService {
 
     private final BikeRepository bikeRepository;
+    private final EngineRepository engineRepository;
 
-    public BikeService(BikeRepository bikeRepository) {
+    public BikeService(BikeRepository bikeRepository, EngineRepository engineRepository) {
         this.bikeRepository = bikeRepository;
+        this.engineRepository = engineRepository;
     }
 
     public String getBikeName(Long id) {
@@ -25,18 +31,24 @@ public class BikeService {
         return bikeRepository.findAll();
     }
 
-    public String createBike(BikeDTO bikeDTO) {
+    public Bikes createBike(BikeReqDTO reqDTO) {
+
+        Engine foundEngine = engineRepository.findById(reqDTO.getEngineId()).orElseThrow();
         Bikes bike = new Bikes();
-        bike.setBikeName(bikeDTO.getBikeName());
-        bike.setPrice(bikeDTO.getPrice());
-        bikeRepository.save(bike);
-        return "Bike saved successfully!";
+
+        bike.setBikeName(reqDTO.getBikeName());
+        bike.setPrice(reqDTO.getPrice());
+        bike.setEngine(foundEngine);
+
+        return bikeRepository.save(bike);
     }
 
-    public String updateBike(BikeDTO bikeDTO, Long id) {
+    public String updateBike(BikeReqDTO reqDTO, Long id) {
+        Engine foundEngine = engineRepository.findById(reqDTO.getEngineId()).orElseThrow();
         Bikes bike = bikeRepository.findById(id).orElseThrow();
-        bike.setBikeName(bikeDTO.getBikeName());
-        bike.setPrice(bikeDTO.getPrice());
+        bike.setBikeName(reqDTO.getBikeName());
+        bike.setPrice(reqDTO.getPrice());
+        bike.setEngine(foundEngine);
         bikeRepository.save(bike);
         return "Bike updated successfully!";
     }
@@ -49,6 +61,8 @@ public class BikeService {
     }
 
     public void deleteBike(Long id) {
-        bikeRepository.deleteById(id);
+        Bikes existingBike = bikeRepository.findById(id).orElseThrow();
+        bikeRepository.delete(existingBike);
     }
+
 }

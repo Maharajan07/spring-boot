@@ -33,7 +33,6 @@ public class BikeController {
     @PostMapping
     public ResponseEntity<Bikes> addBike(@RequestBody BikeReqDTO reqDTO) {
         Bikes savedBike = bikeService.createBike(reqDTO);
-
         return new ResponseEntity<>(savedBike, HttpStatus.CREATED);
     }
 
